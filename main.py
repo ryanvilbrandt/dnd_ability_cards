@@ -1,35 +1,32 @@
+import os.path
 import tomllib
+from glob import glob
 from typing import Any
 
 from PIL import Image
 
-from monk_cards.enums import HAlign, VAlign
-from monk_cards.pil_helpers import TextBox
-
 from monk.monk import get_monk_template, add_text
-
-DEBUG_TEXT_BOX_BORDERS = False
-
-action_box = TextBox(0, 50, 67, 300, halign=HAlign.RIGHT, valign=VAlign.TOP, rotate=90,
-                     font_name="Astoria_Sans_Extended_Bold.otf")
-name_box = TextBox(92, 46, 631, 82)
-name_box_w_ki = TextBox(92, 46, 631, 82)
-ki_box = TextBox(92, 46, 631, 82)
-description_box = TextBox(105, 150, 610, 760, font_size=24, halign=HAlign.LEFT, valign=VAlign.TOP,
-                          font_name="Aktiv_Grotesque.otf")
-source_box = TextBox(125, 933, 382, 82)
-level_box = TextBox(560, 933, 163, 82)
+from pil_helpers import add_class_icon
 
 
 def main():
-    im = build_card("abilities/ki.toml")
+    im = build_card(f"monk/abilities/ki.toml")
     im.show()
+    # build_cards("monk")
+
+
+def build_cards(dir_name: str):
+    for filepath in glob(f"{dir_name}/abilities/*.toml"):
+        filename = os.path.basename(filepath).replace(".toml", ".png")
+        print(filename)
+        build_card(filepath).save(f"output/{filename}")
 
 
 def build_card(filepath: str):
     toml_dict = open_toml(filepath)
     im = get_monk_template(toml_dict)
     add_text(im, toml_dict)
+    add_class_icon(im, "monk")
     return im
 
 

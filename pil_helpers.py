@@ -1,10 +1,10 @@
-from typing import Tuple
+from typing import Tuple, Union
 
 from PIL import ImageFont, ImageDraw, Image, ImageOps
 
-from monk_cards.enums import HAlign, VAlign
+from enums import HAlign, VAlign
 
-DEFAULT_FONT = "Chalfont_Medium.otf"
+DEFAULT_FONT = r"C:\Users\marco\AppData\Local\Microsoft\Windows\Fonts\Chalfont_Medium.otf"
 
 
 def open_image(filepath: str) -> Image:
@@ -18,36 +18,34 @@ def build_font(font_name, font_size):
 class TextBox:
 
     def __init__(self, x, y, w, h, halign: HAlign = HAlign.CENTER, valign: VAlign = VAlign.CENTER,
-                 font_name=DEFAULT_FONT, font_size=50, rotate=0):
+                 font_name=DEFAULT_FONT, font_size=50, rotate=0, use_height_for_text_wrap=False):
         self.x, self.y, self.width, self.height = x, y, w, h
         self.halign, self.valign, self.rotate = halign, valign, rotate
+        self.use_height_for_text_wrap = use_height_for_text_wrap
         self.font = build_font(font_name, font_size)
 
     def draw_box(self, image, color="red", x=None, y=None, width=None, height=None):
         """
         Useful for figuring out where in the image a text box will land
         """
-        if DEBUG_TEXT_BOX_BORDERS or DEBUG_TEXT_BOX_ANCHORS:
-            if x is None:
-                x = self.x
-            if y is None:
-                y = self.y
-            if width is None:
-                width = self.width
-            if height is None:
-                height = self.height
-            draw = ImageDraw.Draw(image)
-            if DEBUG_TEXT_BOX_BORDERS:
-                draw.rectangle((x, y, x + width, y + height), outline=color)
-            if DEBUG_TEXT_BOX_ANCHORS:
-                # Draw top-left cross
-                self.draw_cross(draw, x, y)
-                # Draw center cross
-                center_x = x + (width // 2)
-                center_y = y + (height // 2)
-                self.draw_cross(draw, center_x, center_y)
-                # Draw bottom-right cross
-                self.draw_cross(draw, x + width, y + height)
+        if x is None:
+            x = self.x
+        if y is None:
+            y = self.y
+        if width is None:
+            width = self.width
+        if height is None:
+            height = self.height
+        draw = ImageDraw.Draw(image)
+        draw.rectangle((x, y, x + width, y + height), outline=color)
+        # Draw top-left cross
+        self.draw_cross(draw, x, y)
+        # Draw center cross
+        center_x = x + (width // 2)
+        center_y = y + (height // 2)
+        self.draw_cross(draw, center_x, center_y)
+        # Draw bottom-right cross
+        self.draw_cross(draw, x + width, y + height)
 
     @staticmethod
     def draw_cross(draw: ImageDraw, x: int, y: int, color="green", size=5):
@@ -98,7 +96,7 @@ class TextBox:
         return wrapped_text + temp.strip(' ')
 
     def get_text_block_size(self, text, leading_offset=0):
-        wrapped_text = self.wrap_text(text, self.font, self.width)
+        wrapped_text = self.wrap_text(text, self.font, self.height if self.use_height_for_text_wrap else self.width)
         lines = wrapped_text.split('\n')
 
         # Set leading
@@ -113,7 +111,8 @@ class TextBox:
 
         return max_line_width, len(lines) * leading
 
-    def add_text(self, image, text, color="black", leading_offset=0):
+    def add_text(self, image: Image, text: str, color: Union[str, Tuple[int, int, int]] = "black",
+                 leading_offset: int = 0):
         """
         First, attempt to wrap the text if max_width is set, and creates a list of each line. Then paste each
         individual line onto a transparent layer one line at a time, taking into account halign. Then rotate the layer,
@@ -121,7 +120,7 @@ class TextBox:
 
         @return (int, int): Total width and height of the text block added, in pixels.
         """
-        wrapped_text = self.wrap_text(text, self.font, self.width)
+        wrapped_text = self.wrap_text(text, self.font, self.height if self.use_height_for_text_wrap else self.width)
         lines = wrapped_text.split('\n')
 
         # Initialize layer and draw object
@@ -228,3 +227,21 @@ class TextBox:
         else:
             raise ValueError(f"Invalid valign value: {valign}")
         return anchor_x, anchor_y
+
+
+def add_class_icon(im: Image, dirname: str):
+    symbol = Image.open(f"{dirname}/symbol.jpeg")
+    symbol = symbol.resize((62, 62))
+    im.paste(symbol, box=(3, 986))
+
+
+action_box = TextBox(0, 50, 67, 500, halign=HAlign.RIGHT, valign=VAlign.TOP, rotate=90,
+                     font_name=r"C:\Users\marco\AppData\Local\Microsoft\Windows\Fonts\Astoria_Sans_Extended_Bold.otf",
+                     use_height_for_text_wrap=True)
+name_box = TextBox(92, 46, 631, 82)
+description_box = TextBox(105, 150, 610, 700, font_size=24, halign=HAlign.LEFT, valign=VAlign.TOP,
+                          font_name=r"C:\Users\marco\AppData\Local\Microsoft\Windows\Fonts\Aktiv_Grotesque.otf")
+footnote_box = TextBox(105, 860, 610, 50, font_size=24,
+                       font_name=r"C:\Users\marco\AppData\Local\Microsoft\Windows\Fonts\Aktiv_Grotesque.otf")
+source_box = TextBox(125, 933, 382, 82)
+level_box = TextBox(560, 933, 163, 82)

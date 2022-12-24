@@ -1,0 +1,9 @@
+name = "Martial Arts"
+source = "Monk"
+level = "1"
+action = "Bonus Action"
+cost = ""
+description = """
+Immediately after you take the Attack action on your turn, you can make one Unarmed Strike as a Bonus Action.
+"""
+footnote = ""

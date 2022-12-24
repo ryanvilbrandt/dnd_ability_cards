@@ -1,0 +1,9 @@
+name = "Flurry of Blows"
+source = "Monk"
+level = "2"
+action = "Bonus Action"
+cost = "1"
+description = """
+Immediately after you take the Attack action on your turn, you can spend 1 ki point to make two Unarmed Strikes as a Bonus Action.
+"""
+footnote = ""
