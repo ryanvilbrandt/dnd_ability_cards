@@ -4,6 +4,8 @@ from PIL import ImageFont, ImageDraw, Image, ImageOps
 
 from enums import HAlign, VAlign
 
+
+DEBUG_TEXT_BOX_BORDERS = False
 DEFAULT_FONT = r"C:\Users\marco\AppData\Local\Microsoft\Windows\Fonts\Chalfont_Medium.otf"
 
 
@@ -206,6 +208,10 @@ class TextBox:
             (coords_x, coords_y),
             layer
         )
+
+        # Add debug box if the flag is set
+        if DEBUG_TEXT_BOX_BORDERS:
+            self.draw_box(image)
 
         return total_text_size
 

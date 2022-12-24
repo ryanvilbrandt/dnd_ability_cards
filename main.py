@@ -1,32 +1,42 @@
+import importlib
 import os.path
 import tomllib
 from glob import glob
+from types import ModuleType
 from typing import Any
 
 from PIL import Image
 
-from monk.monk import get_monk_template, add_text
 from pil_helpers import add_class_icon
 
 
 def main():
-    im = build_card(f"monk/abilities/ki.toml")
-    im.show()
-    # build_cards("monk")
+    # from fighter import src
+    # im = build_card("fighter", src, f"fighter/abilities/second_wind.toml")
+    # im.show()
+    build_cards("ranger")
 
 
-def build_cards(dir_name: str):
-    for filepath in glob(f"{dir_name}/abilities/*.toml"):
-        filename = os.path.basename(filepath).replace(".toml", ".png")
+def build_cards(class_name: str):
+    # Load the class module
+    class_module = importlib.import_module(f"{class_name}.src")
+    # Build the cards defined by the given toml dicts
+    for toml_path in glob(f"{class_name}/abilities/*.toml"):
+        filename = os.path.basename(toml_path).replace(".toml", ".png")
         print(filename)
-        build_card(filepath).save(f"output/{filename}")
+        im = build_card(class_name, class_module, toml_path)
+        # Save image file
+        os.makedirs(f"output/{class_name}", exist_ok=True)
+        im.save(f"output/{class_name}/{filename}")
 
 
-def build_card(filepath: str):
-    toml_dict = open_toml(filepath)
-    im = get_monk_template(toml_dict)
-    add_text(im, toml_dict)
-    add_class_icon(im, "monk")
+def build_card(class_name: str, class_module: ModuleType, toml_path: str):
+    # Load the given toml dict
+    toml_dict = open_toml(toml_path)
+    # Call class module code
+    im = class_module.get_template(toml_dict)
+    class_module.add_text(im, toml_dict)
+    add_class_icon(im, class_name)
     return im
 
 

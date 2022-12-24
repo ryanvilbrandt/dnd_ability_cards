@@ -1,0 +1,11 @@
+name = "Second Wind"
+source = "Fighter"
+level = "2"
+action = "Bonus Action"
+cost = ""
+description = """
+You have a limited well of stamina that you can draw on to protect yourself from harm. On your turn, you can use a Bonus Action to regain hit points equal to 1d10 + your fighter level.
+
+Once you use this feature, you must finish a Short or Long Rest before you can use it again.
+"""
+footnote = "Recovers on a Short Rest"
