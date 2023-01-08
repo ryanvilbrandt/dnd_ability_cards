@@ -17,7 +17,7 @@ def get_template(toml_dict: dict[str, Any]) -> Image:
     action = toml_dict["action"].replace(" ", "_")
     filepath = f"templates/Template_{ki}{action}.png"
     if not os.path.isfile(filepath):
-        filepath = "monk/" + filepath
+        filepath = "classes/monk/" + filepath
     return open_image(filepath)
 
 

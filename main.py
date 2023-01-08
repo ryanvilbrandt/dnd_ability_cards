@@ -26,10 +26,10 @@ def main():
 
 def build_cards(class_name: str) -> List[Image]:
     # Load the class module
-    class_module = importlib.import_module(f"{class_name}.src")
+    class_module = importlib.import_module(f"classes.{class_name}.src")
     # Build the cards defined by the given toml dicts
     images = []
-    for toml_path in glob(f"{class_name}/abilities/*.toml"):
+    for toml_path in glob(f"classes/{class_name}/abilities/*.toml"):
         filename = os.path.basename(toml_path).replace(".toml", ".png")
         print(filename)
         im = build_card(class_name, class_module, toml_path)

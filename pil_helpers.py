@@ -238,7 +238,7 @@ class TextBox:
 
 
 def add_class_icon(im: Image, dirname: str):
-    symbol = Image.open(f"{dirname}/symbol.jpeg")
+    symbol = Image.open(f"classes/{dirname}/symbol.jpeg")
     symbol = symbol.resize((62, 62))
     im.paste(symbol, box=(3, 986))
 
