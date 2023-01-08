@@ -18,6 +18,7 @@ def main():
     # Normal-sized cards
     card_list = build_cards("fighter")
     card_list += build_cards("ranger")
+    card_list += build_cards("wizard")
     save_cards_to_pages(card_list)
     # Large monk pages
     card_list = build_cards("monk")
@@ -34,8 +35,8 @@ def build_cards(class_name: str) -> List[Image]:
         print(filename)
         im = build_card(class_name, class_module, toml_path)
         # Save image file
-        os.makedirs(f"output/{class_name}", exist_ok=True)
-        im.save(f"output/{class_name}/{filename}")
+        os.makedirs(f"output/cards/{class_name}", exist_ok=True)
+        im.save(f"output/cards/{class_name}/{filename}")
         images.append(im)
     return images
 
