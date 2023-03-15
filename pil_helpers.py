@@ -9,6 +9,7 @@ from enums import HAlign, VAlign
 DEBUG_TEXT_BOX_BORDERS = False
 FONTS_FOLDER = os.environ["FONTS_FOLDER"]  # Usually found at C:\Users\<user>\AppData\Local\Microsoft\Windows\Fonts\
 DEFAULT_FONT = os.path.join(FONTS_FOLDER, "Chalfont_Medium.otf")
+TEXT_FONT = os.path.join(FONTS_FOLDER, "Aktiv_Grotesque.otf")
 
 
 def open_image(filepath: str) -> Image:
@@ -299,9 +300,7 @@ action_box = TextBox(0, 50, 67, 500, halign=HAlign.RIGHT, valign=VAlign.TOP, rot
                      font_name=os.path.join(FONTS_FOLDER, "Astoria_Sans_Extended_Bold.otf"),
                      use_height_for_text_wrap=True)
 name_box = TextBox(92, 46, 631, 82)
-description_box = TextBox(105, 150, 610, 700, font_size=24, halign=HAlign.LEFT, valign=VAlign.TOP,
-                          font_name=os.path.join(FONTS_FOLDER, "Aktiv_Grotesque.otf"))
-footnote_box = TextBox(105, 860, 610, 50, font_size=24,
-                       font_name=os.path.join(FONTS_FOLDER, "Aktiv_Grotesque.otf"))
-source_box = TextBox(125, 933, 382, 82)
+description_box = TextBox(105, 150, 610, 700, font_size=32, halign=HAlign.LEFT, valign=VAlign.TOP, font_name=TEXT_FONT)
+footnote_box = TextBox(105, 860, 610, 50, font_size=32, font_name=TEXT_FONT)
+source_box = TextBox(125, 933, 382, 82, font_name=TEXT_FONT)
 level_box = TextBox(560, 933, 163, 82)
