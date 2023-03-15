@@ -1,9 +1,8 @@
-import os.path
 from typing import Any
 
 from PIL import Image
 
-from pil_helpers import open_image, TextBox, action_box, name_box, description_box, source_box, level_box, footnote_box
+from pil_helpers import open_image, action_box, name_box, description_box, source_box, level_box, footnote_box
 
 
 def get_template(toml_dict: dict[str, Any]) -> Image:

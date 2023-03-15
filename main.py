@@ -1,9 +1,10 @@
 import importlib
 import os.path
+import shutil
 import tomllib
 from glob import glob
 from types import ModuleType
-from typing import Any, List, Tuple
+from typing import Any, List, Tuple, Optional
 
 from PIL import Image
 
@@ -16,10 +17,10 @@ def main():
     # im.show()
 
     # Normal-sized cards
-    card_list = build_cards("fighter")
-    card_list += build_cards("ranger")
-    card_list += build_cards("wizard")
-    save_cards_to_pages(card_list)
+    # card_list = build_cards("fighter")
+    # card_list += build_cards("ranger")
+    # card_list += build_cards("wizard")
+    # save_cards_to_pages(card_list)
     # Large monk pages
     card_list = build_cards("monk")
     save_cards_to_pages(card_list, (2, 2), "monk_pages")
@@ -34,6 +35,8 @@ def build_cards(class_name: str) -> List[Image]:
         filename = os.path.basename(toml_path).replace(".toml", ".png")
         print(filename)
         im = build_card(class_name, class_module, toml_path)
+        if im is None:
+            continue
         # Save image file
         os.makedirs(f"output/cards/{class_name}", exist_ok=True)
         im.save(f"output/cards/{class_name}/{filename}")
@@ -41,9 +44,11 @@ def build_cards(class_name: str) -> List[Image]:
     return images
 
 
-def build_card(class_name: str, class_module: ModuleType, toml_path: str):
+def build_card(class_name: str, class_module: ModuleType, toml_path: str) -> Optional[Image]:
     # Load the given toml dict
     toml_dict = open_toml(toml_path)
+    if toml_dict.get("skip"):
+        return None
     # Call class module code
     im = class_module.get_template(toml_dict)
     class_module.add_text(im, toml_dict)
@@ -62,7 +67,9 @@ def gen_chunks(chunk_list, n):
 
 
 def save_cards_to_pages(card_list: List[Image], grid: Tuple[int, int] = (3, 3), folder: str = "pages"):
-    os.makedirs(f"output/{folder}", exist_ok=True)
+    folder_path = f"output/{folder}"
+    shutil.rmtree(folder_path, ignore_errors=True)
+    os.makedirs(folder_path, exist_ok=True)
     for i, chunk in enumerate(gen_chunks(card_list, grid[0] * grid[1])):
         filename = f"output/{folder}/{i + 1:>03}.png"
         print(f"Saving {filename}")
