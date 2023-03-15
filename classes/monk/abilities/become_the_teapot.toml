@@ -1,0 +1,11 @@
+name = "Become the Teapot"
+source = "Way of the Four Elements"
+level = "3"
+action = "Reaction"
+cost = "1+"
+description = """
+You roll with the incoming energy, attuning to element, becoming it. When you take acid, cold, fire, lightning, or thunder damage, you can spend one ki point to gain resistance to the triggering damage type until the start of your next turn. Also, the first time you hit with a melee attack on your next turn, the target takes an extra 1d6 damage of the triggering type, and the spell ends.
+
+The extra damage increases by 1d6 for each extra ki point you spend when you use this ability. The maximum number of extra ki points you can spend is 1. This increases to 2 at 9th level, 3 at 13th level, and 4 at 17th level.
+"""
+footnote = ""

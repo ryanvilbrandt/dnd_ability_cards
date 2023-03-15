@@ -1,0 +1,11 @@
+name = "Rumbling Badger"
+source = "Way of the Four Elements"
+level = "3"
+action = "Action"
+cost = "1+"
+description = """
+You shake the ground, causing a tremor in a 10-foot radius. Each creature other than you in that area must make a Dexterity saving throw. On a failed save, a creature takes 1d6 bludgeoning damage and is knocked prone. If the ground in that area is loose earth or stone, it becomes difficult terrain until cleared.
+
+The damage increases by 1d6 for each extra ki point you spend when you use this ability. The maximum number of extra ki points you can spend is 1. This increases to 2 at 9th level, 3 at 13th level, and 4 at 17th level.
+"""
+footnote = ""
