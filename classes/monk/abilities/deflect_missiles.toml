@@ -1,0 +1,11 @@
+name = "Deflect Missiles"
+source = "Monk"
+level = "3"
+action = "Reaction"
+cost = "0+"
+description = """
+You can use your reaction to deflect or catch the missile when you are hit by a ranged weapon attack. When you do so, the damage you take from the attack is reduced by 1d10 + ____ (Dex + monk level)
+
+If you reduce the damage to 0, you can catch the missile if it is small enough for you to hold in one hand and you have at least one hand free. If you catch a missile in this way, you can spend 1 ki point to make a ranged attack with the weapon or piece of ammunition you just caught, as part of the same reaction.
+"""
+footnote = ""

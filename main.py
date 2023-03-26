@@ -11,30 +11,29 @@ from PIL import Image
 from pil_helpers import add_class_icon, save_page
 
 
-def main():
+def main(minimum_level: int = 1):
     # from fighter import src
     # im = build_card("fighter", src, f"fighter/abilities/second_wind.toml")
     # im.show()
 
     # Normal-sized cards
-    # card_list = build_cards("fighter")
-    # card_list += build_cards("ranger")
-    # card_list += build_cards("wizard")
-    # save_cards_to_pages(card_list)
+    card_list = build_cards("fighter", minimum_level=minimum_level)
+    card_list += build_cards("ranger", minimum_level=minimum_level)
+    # card_list += build_cards("wizard", minimum_level=minimum_level)
+    save_cards_to_pages(card_list)
     # Large monk pages
-    card_list = build_cards("monk")
+    card_list = build_cards("monk", minimum_level=minimum_level)
     save_cards_to_pages(card_list, (2, 2), "monk_pages")
 
 
-def build_cards(class_name: str) -> List[Image]:
+def build_cards(class_name: str, minimum_level: int = 1) -> List[Image]:
     # Load the class module
     class_module = importlib.import_module(f"classes.{class_name}.src")
     # Build the cards defined by the given toml dicts
     images = []
     for toml_path in glob(f"classes/{class_name}/abilities/*.toml"):
         filename = os.path.basename(toml_path).replace(".toml", ".png")
-        print(filename)
-        im = build_card(class_name, class_module, toml_path)
+        im = build_card(class_name, class_module, toml_path, minimum_level=minimum_level)
         if im is None:
             continue
         # Save image file
@@ -44,11 +43,14 @@ def build_cards(class_name: str) -> List[Image]:
     return images
 
 
-def build_card(class_name: str, class_module: ModuleType, toml_path: str) -> Optional[Image]:
+def build_card(class_name: str, class_module: ModuleType, toml_path: str, minimum_level: int = 1) -> Optional[Image]:
     # Load the given toml dict
     toml_dict = open_toml(toml_path)
     if toml_dict.get("skip"):
         return None
+    if int(toml_dict.get("level", 0)) < minimum_level:
+        return None
+    print(toml_dict["name"])
     # Call class module code
     im = class_module.get_template(toml_dict)
     class_module.add_text(im, toml_dict)
@@ -77,4 +79,4 @@ def save_cards_to_pages(card_list: List[Image], grid: Tuple[int, int] = (3, 3), 
 
 
 if __name__ == "__main__":
-    main()
+    main(minimum_level=3)

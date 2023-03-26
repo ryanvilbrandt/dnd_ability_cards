@@ -1,0 +1,9 @@
+name = "Drake Companion"
+source = "Drakewarden"
+level = "3"
+action = "Bonus Action"
+cost = ""
+description = """
+In combat, the drake shares your initiative count, but it takes its turn immediately after yours. It can move and use its reaction on its own, but the only action it takes on its turn is the Dodge action, unless you take a bonus action on your turn to command it to take another action. That action can be one in its stat block or some other action. If you are incapacitated, the drake can take any action of its choice, not just Dodge.
+"""
+footnote = ""

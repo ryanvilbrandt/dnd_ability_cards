@@ -8,7 +8,7 @@ from pil_helpers import open_image, TextBox, action_box, name_box, description_b
 DEBUG_TEXT_BOX_BORDERS = False
 
 
-ki_box = TextBox(98, 46, 82, 82)
+ki_box = TextBox(96, 46, 84, 82)
 name_box_w_ki = TextBox(206, 46, 517, 82)
 
 
