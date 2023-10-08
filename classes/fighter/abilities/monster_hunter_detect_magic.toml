@@ -1,0 +1,8 @@
+name = "Detect Magic"
+source = "Monster Hunter"
+level = "3"
+action = "Passive"
+cost = ""
+description = """
+You can cast Detect Magic as a ritual.
+"""

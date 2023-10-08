@@ -15,6 +15,7 @@ def add_text(im: Image, toml_dict: dict[str, Any]):
     action_box.add_text(im, toml_dict["action"])
     name_box.add_text(im, toml_dict["name"])
     description_box.add_text(im, toml_dict["description"])
-    footnote_box.add_text(im, toml_dict["footnote"])
+    if "footnote" in toml_dict:
+        footnote_box.add_text(im, toml_dict["footnote"])
     source_box.add_text(im, toml_dict["source"])
     level_box.add_text(im, toml_dict["level"])

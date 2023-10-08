@@ -1,0 +1,9 @@
+name = "Protection from Evil and Good"
+source = "Monster Hunter"
+level = "3"
+action = "Action"
+cost = ""
+description = """
+You can cast Protection from Evil and Good.
+"""
+footnote = "Recovers on a Long Rest"

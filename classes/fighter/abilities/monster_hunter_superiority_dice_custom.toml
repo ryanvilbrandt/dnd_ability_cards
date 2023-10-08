@@ -1,0 +1,20 @@
+name = "Superiority Dice"
+source = "Monster Hunter"
+level = "3"
+action = "Passive"
+cost = ""
+description = """
+You can expend superiority dice to gain a number of different benefits:
+
+ • Add to a weapon attack roll.
+ • Add to a weapon damage roll. Disadvantage on concentration save.
+ • Add to Int, Wis, or a Cha save.
+ • Add to Perception check to detect a hidden creature or object.
+ • Add to Insight check to determine if someone is lying to you.
+ • Add to an Investigation check.
+
+# of superiority dice = ____
+
+Superiority die size = ____
+"""
+footnote = "Recovers on a Short Rest"
