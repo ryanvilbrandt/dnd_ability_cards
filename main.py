@@ -13,16 +13,16 @@ from pil_helpers import add_class_icon, save_page
 
 def main(minimum_level: int = 1):
     # Normal-sized cards
-    card_list = build_cards("fighter", include_cards=[
-        "monster_hunter_protection_from_evil_and_good",
-    ])
+    # card_list = build_cards("fighter", include_cards=[
+    #     "monster_hunter_protection_from_evil_and_good",
+    # ])
     # card_list = build_cards("fighter", minimum_level=minimum_level)
     # card_list += build_cards("ranger", minimum_level=minimum_level)
     # card_list += build_cards("wizard", minimum_level=minimum_level)
-    save_cards_to_pages(card_list)
+    # save_cards_to_pages(card_list)
     # Large monk pages
-    # card_list = build_cards("monk", minimum_level=minimum_level)
-    # save_cards_to_pages(card_list, (2, 2), "monk_pages")
+    card_list = build_cards("monk", minimum_level=minimum_level)
+    save_cards_to_pages(card_list, (2, 2), "monk_pages")
 
 
 def build_cards(class_name: str, minimum_level: int = 1, include_cards: List[str] = None) -> List[Image]:
@@ -87,4 +87,4 @@ def save_cards_to_pages(card_list: List[Image], grid: Tuple[int, int] = (3, 3), 
 
 
 if __name__ == "__main__":
-    main(minimum_level=3)
+    main(minimum_level=4)

@@ -1,0 +1,9 @@
+name = "Slow Fall"
+source = "Monk"
+level = "4"
+action = "Reaction"
+cost = ""
+description = """
+You can use your reaction when you fall to reduce any falling damage you take by an amount equal to 5 × your monk level. ____
+"""
+footnote = ""
