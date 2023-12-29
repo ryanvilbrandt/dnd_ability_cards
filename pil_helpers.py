@@ -5,14 +5,13 @@ from PIL import ImageFont, ImageDraw, Image, ImageOps
 
 from enums import HAlign, VAlign
 
-
 DEBUG_TEXT_BOX_BORDERS = False
 FONTS_FOLDER = os.environ["FONTS_FOLDER"]  # Usually found at C:\Users\<user>\AppData\Local\Microsoft\Windows\Fonts\
 DEFAULT_FONT = os.path.join(FONTS_FOLDER, "Chalfont_Medium.otf")
 TEXT_FONT = os.path.join(FONTS_FOLDER, "Aktiv_Grotesque.otf")
 
 
-def open_image(filepath: str) -> Image:
+def open_image(filepath: str) -> Image.Image:
     return Image.open(filepath)
 
 
@@ -70,8 +69,9 @@ class TextBox:
                 temp += w + " "
         return wrapped_text + temp.strip(' ')
 
-    def get_text_block_size(self, text: str, font: ImageFont, leading_offset: int = 0) -> Tuple[List[str], int, int]:
-        wrapped_text = self.wrap_text(text, font, self.height if self.use_height_for_text_wrap else self.width)
+    def get_text_block_size(self, text: str, font: ImageFont, width: int, height: int, leading_offset: int = 0
+                            ) -> Tuple[List[str], int, int]:
+        wrapped_text = self.wrap_text(text, font, height if self.use_height_for_text_wrap else width)
         lines = wrapped_text.split('\n')
 
         # Set leading
@@ -91,7 +91,7 @@ class TextBox:
         font_size = starting_font_size
         while font_size > 0:
             font = build_font(font_name, font_size)
-            text_lines, block_width, block_height = self.get_text_block_size(text, font)
+            text_lines, block_width, block_height = self.get_text_block_size(text, font, width, height)
             if block_width <= width and block_height <= height:
                 print(font_size)
                 return text_lines, font
@@ -99,8 +99,8 @@ class TextBox:
         else:
             raise ValueError("Text is too big to fit in the text box at any font size")
 
-    def add_text(self, image: Image, text: str, color: Union[str, Tuple[int, int, int]] = "black",
-                 leading_offset: int = 0):
+    def add_text(self, image: Image.Image, text: str, color: Union[str, Tuple[int, int, int]] = "black",
+                 leading_offset: int = 0, scale: float=1.0) -> Tuple[int, int]:
         """
         First, attempt to wrap the text if max_width is set, and creates a list of each line. Then paste each
         individual line onto a transparent layer one line at a time, taking into account halign. Then rotate the layer,
@@ -110,11 +110,20 @@ class TextBox:
         """
         if self.shrink_font_to_fit:
             text_lines, font = self.shrink_font_until_text_fits(
-                text, self.font_name, self.font_size, self.width, self.height
+                text,
+                self.font_name,
+                int(self.font_size * scale),
+                int(self.width * scale),
+                int(self.height * scale),
             )
         else:
-            font = build_font(self.font_name, self.font_size)
-            wrapped_text = self.wrap_text(text, font, self.height if self.use_height_for_text_wrap else self.width)
+            font = build_font(self.font_name, int(self.font_size * scale))
+            max_size = self.height if self.use_height_for_text_wrap else self.width
+            wrapped_text = self.wrap_text(
+                text,
+                font,
+                int(max_size * scale)
+            )
             text_lines = wrapped_text.split('\n')
 
         # Initialize layer and draw object
@@ -174,7 +183,8 @@ class TextBox:
         if self.rotate != 0:
             layer = layer.rotate(self.rotate, expand=True)
 
-        anchor_x, anchor_y = get_anchors(self.x, self.y, self.width, self.height, self.halign, self.valign)
+        x, y, width, height = int(self.x * scale), int(self.y * scale), int(self.width * scale), int(self.height * scale)
+        anchor_x, anchor_y = get_anchors(x, y, width, height, self.halign, self.valign)
 
         # Determine the anchor point for the new layer
         layer_width, layer_height = layer.size
@@ -203,12 +213,12 @@ class TextBox:
 
         # Add debug box if the flag is set
         if DEBUG_TEXT_BOX_BORDERS:
-            draw_box(image, self.x, self.y, self.width, self.height)
+            draw_box(image, x, y, width, height, anchor_x, anchor_y)
 
         return total_text_size
 
 
-def draw_box(image, x: int, y: int, width: int, height: int, color="red"):
+def draw_box(image, x: int, y: int, width: int, height: int, anchor_x=None, anchor_y=None, color="red"):
     """
     Useful for figuring out where in the image a text box will land
     """
@@ -222,6 +232,9 @@ def draw_box(image, x: int, y: int, width: int, height: int, color="red"):
     draw_cross(draw, center_x, center_y)
     # Draw bottom-right cross
     draw_cross(draw, x + width, y + height)
+    # Draw cross at layer anchor point
+    if anchor_x is not None and anchor_y is not None:
+        draw_cross(draw, anchor_x, anchor_y, color="purple")
 
 
 def draw_cross(draw: ImageDraw, x: int, y: int, color="green", size=5):
@@ -262,7 +275,7 @@ def add_class_icon(im: Image, dirname: str):
 
 
 def save_page(card_list: List[Image], grid: Tuple[int, int], filename, cut_line_width=3,
-               page_ratio=8.5 / 11.0, h_margin=100):
+              page_ratio=8.5 / 11.0, h_margin=100):
     """
     Adds cards, in order, to a grid defined by grid_width, grid_height.
     It then adds a border to the grid, making sure to preserve the

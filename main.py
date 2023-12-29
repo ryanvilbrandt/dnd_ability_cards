@@ -8,21 +8,22 @@ from typing import Any, List, Tuple, Optional
 
 from PIL import Image
 
-from pil_helpers import add_class_icon, save_page
+from pil_helpers import save_page
 
 
 def main(minimum_level: int = 1):
+    card_list = []
     # Normal-sized cards
     # card_list = build_cards("fighter", include_cards=[
     #     "monster_hunter_protection_from_evil_and_good",
     # ])
-    # card_list = build_cards("fighter", minimum_level=minimum_level)
-    # card_list = build_cards("onednd_fighter", minimum_level=minimum_level)
+    # card_list += build_cards("fighter", minimum_level=minimum_level)
+    # card_list += build_cards("onednd_fighter", minimum_level=minimum_level)
     # card_list += build_cards("ranger", minimum_level=minimum_level)
     # card_list += build_cards("wizard", minimum_level=minimum_level)
     # save_cards_to_pages(card_list)
     # Large rogue pages
-    card_list = build_cards("common")
+    card_list += build_cards("common")
     card_list += build_cards("onednd_rogue", minimum_level=minimum_level)
     save_cards_to_pages(card_list, (2, 2), "rogue_pages")
 
@@ -43,7 +44,7 @@ def build_cards(class_name: str, minimum_level: int = 1, include_cards: List[str
         filename = os.path.basename(toml_path).replace(".toml", "")
         if include_cards and filename not in include_cards:
             continue
-        im = build_card(class_name, class_module, toml_path, minimum_level=minimum_level)
+        im = build_card(class_module, toml_path, minimum_level=minimum_level)
         if im is None:
             continue
         # Save image file
@@ -53,7 +54,7 @@ def build_cards(class_name: str, minimum_level: int = 1, include_cards: List[str
     return images
 
 
-def build_card(class_name: str, class_module: ModuleType, toml_path: str, minimum_level: int = 1) -> Optional[Image]:
+def build_card(class_module: ModuleType, toml_path: str, minimum_level: int = 1) -> Optional[Image]:
     # Load the given toml dict
     toml_dict = open_toml(toml_path)
     if toml_dict.get("skip"):
@@ -65,7 +66,6 @@ def build_card(class_name: str, class_module: ModuleType, toml_path: str, minimu
     # Call class module code
     im = class_module.get_template(toml_dict)
     class_module.add_text(im, toml_dict)
-    add_class_icon(im, class_name)
     return im
 
 
