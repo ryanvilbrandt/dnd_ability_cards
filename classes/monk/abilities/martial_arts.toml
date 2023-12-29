@@ -7,4 +7,3 @@ description = """
 Immediately after you take the Attack action on your turn, you can make one Unarmed Strike as a Bonus Action.
 """
 footnote = ""
-skip = true

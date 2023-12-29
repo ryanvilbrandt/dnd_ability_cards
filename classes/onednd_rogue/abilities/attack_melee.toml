@@ -1,0 +1,21 @@
+name = "Attack (Melee)"
+source = "Rogue"
+level = "1"
+action = "Action"
+description = """
+You make 2x attacks, once with each of your shortswords.
+
+To-Hit bonus = ___
+Damage = 1d6 + ___
+
+
+If one of these attacks hit, you can deal extra damage if either:
+
+• You have Advantage on the attack roll.
+• At least one of your allies is within 5 feet of the target.
+
+You may only deal this extra damage once per turn.
+
+Sneak Attack Damage = ______
+"""
+footnote = ""

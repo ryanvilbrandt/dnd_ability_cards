@@ -1,0 +1,10 @@
+name = "Second-Story Work"
+source = "Thief"
+level = "3"
+action = "Passive"
+description = """
+• You can climb at your normal speed, rather than half speed.
+• You can move on a ceiling without making an ability check, provided there is at least one handhold during the move, but you fall if you end the turn there without a handhold.
+• Your jump distance is determined by your Dexterity rather than your Strength.
+"""
+footnote = ""

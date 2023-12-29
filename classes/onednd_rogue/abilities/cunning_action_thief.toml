@@ -1,0 +1,16 @@
+name = "Cunning Action"
+source = "Rogue"
+level = "2"
+action = "Bonus Action"
+description = """
+You may use a Bonus Action to take any of the following Actions:
+
+• Dash
+• Disengage
+• Hide
+• Pick a lock
+• Disarm a trap
+• Pickpocket
+• Use an Object
+"""
+footnote = ""

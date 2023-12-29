@@ -1,0 +1,10 @@
+name = "Dash"
+source = ""
+level = ""
+action = "Action"
+description = """
+You gain extra movement equal to your Speed.
+
+Speed = ____ ft
+"""
+footnote = ""

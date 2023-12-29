@@ -1,0 +1,9 @@
+name = "Fighting Style: Great Weapon Fighting"
+source = "Fighter"
+level = "1"
+action = "Passive"
+cost = ""
+description = """
+When you roll a 1 or 2 on a damage die for an attack you make with a Melee Weapon that you are wielding with two hands, you can reroll the die, and you must use the new roll. The Weapon must have the Two-Handed or Versatile property to gain this benefit.
+"""
+footnote = ""

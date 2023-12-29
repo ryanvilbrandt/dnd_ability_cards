@@ -1,0 +1,10 @@
+name = "Dodge"
+source = ""
+level = ""
+action = "Action"
+description = """
+Any attack roll made against you has Disadvantage if you can see the attacker, and you make Dexterity saving throws with advantage.
+
+This lasts until the start of your next turn.
+"""
+footnote = ""

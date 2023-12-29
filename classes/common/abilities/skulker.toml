@@ -1,0 +1,10 @@
+name = "Skulker"
+source = "Feat"
+level = "4"
+action = "Passive"
+description = """
+• You have Blindsight with a range of 10 feet.
+• Exploiting the distractions of battle, you have Advantage on any Dexterity Check (Stealth) you make as part of the Hide Action during combat.
+• If you make an Attack Roll while Hidden and the roll misses, making the Attack Roll doesn't end the Hidden Condition on you.
+"""
+footnote = ""

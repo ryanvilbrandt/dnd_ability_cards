@@ -1,0 +1,18 @@
+name = "Other"
+source = ""
+level = ""
+action = "Action"
+description = """
+Other actions you may take on your turn include:
+
+• Cast a Spell
+• Help
+• Influence
+• Ready an Action
+• Search
+• Study
+• Use an Object
+
+Ask the DM for the rules for the actions listed above. You may also do something else not described here, with your DM's permission.
+"""
+footnote = ""

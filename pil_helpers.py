@@ -93,6 +93,7 @@ class TextBox:
             font = build_font(font_name, font_size)
             text_lines, block_width, block_height = self.get_text_block_size(text, font)
             if block_width <= width and block_height <= height:
+                print(font_size)
                 return text_lines, font
             font_size -= 1
         else:
@@ -253,9 +254,11 @@ def get_anchors(x: int, y: int, width: int, height: int, halign: HAlign, valign:
 
 
 def add_class_icon(im: Image, dirname: str):
-    symbol = Image.open(f"classes/{dirname}/symbol.jpeg")
-    symbol = symbol.resize((62, 62))
-    im.paste(symbol, box=(3, 986))
+    path = f"classes/{dirname}/symbol.jpeg"
+    if os.path.isfile(path):
+        symbol = Image.open(path)
+        symbol = symbol.resize((62, 62))
+        im.paste(symbol, box=(3, 986))
 
 
 def save_page(card_list: List[Image], grid: Tuple[int, int], filename, cut_line_width=3,
@@ -313,7 +316,7 @@ def save_page(card_list: List[Image], grid: Tuple[int, int], filename, cut_line_
 action_box = TextBox(0, 50, 67, 500, halign=HAlign.RIGHT, valign=VAlign.TOP, rotate=90,
                      font_name=os.path.join(FONTS_FOLDER, "Astoria_Sans_Extended_Bold.otf"),
                      use_height_for_text_wrap=True)
-name_box = TextBox(92, 46, 631, 82, shrink_font_size_to_fit=True)
+name_box = TextBox(92, 47, 631, 82, shrink_font_size_to_fit=True)
 description_box = TextBox(105, 150, 610, 700,
                           font_size=32, halign=HAlign.LEFT, valign=VAlign.TOP, font_name=TEXT_FONT,
                           shrink_font_size_to_fit=True)

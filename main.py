@@ -17,12 +17,14 @@ def main(minimum_level: int = 1):
     #     "monster_hunter_protection_from_evil_and_good",
     # ])
     # card_list = build_cards("fighter", minimum_level=minimum_level)
+    # card_list = build_cards("onednd_fighter", minimum_level=minimum_level)
     # card_list += build_cards("ranger", minimum_level=minimum_level)
     # card_list += build_cards("wizard", minimum_level=minimum_level)
     # save_cards_to_pages(card_list)
-    # Large monk pages
-    card_list = build_cards("monk", minimum_level=minimum_level)
-    save_cards_to_pages(card_list, (2, 2), "monk_pages")
+    # Large rogue pages
+    card_list = build_cards("common")
+    card_list += build_cards("onednd_rogue", minimum_level=minimum_level)
+    save_cards_to_pages(card_list, (2, 2), "rogue_pages")
 
 
 def build_cards(class_name: str, minimum_level: int = 1, include_cards: List[str] = None) -> List[Image]:
@@ -56,8 +58,9 @@ def build_card(class_name: str, class_module: ModuleType, toml_path: str, minimu
     toml_dict = open_toml(toml_path)
     if toml_dict.get("skip"):
         return None
-    if int(toml_dict.get("level", 0)) < minimum_level:
-        return None
+    if toml_dict.get("level"):
+        if int(toml_dict["level"]) < minimum_level:
+            return None
     print(toml_dict["name"])
     # Call class module code
     im = class_module.get_template(toml_dict)
@@ -87,4 +90,4 @@ def save_cards_to_pages(card_list: List[Image], grid: Tuple[int, int] = (3, 3), 
 
 
 if __name__ == "__main__":
-    main(minimum_level=4)
+    main(minimum_level=1)

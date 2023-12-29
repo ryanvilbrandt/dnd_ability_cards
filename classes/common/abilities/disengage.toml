@@ -1,0 +1,8 @@
+name = "Disengage"
+source = ""
+level = ""
+action = "Action"
+description = """
+Your movement doesn't provoke opportunity attacks for the rest of the turn.
+"""
+footnote = ""
